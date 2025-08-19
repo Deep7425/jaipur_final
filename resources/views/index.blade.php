@@ -5,23 +5,37 @@
 @section('description', 'Discover our exquisite collection of handcrafted Indian wear, where tradition meets contemporary style. Shop Kurta Sets, Kaftans, and Occasion Wear.')
 
 @section('content')
+
+<style>
+
+.collection-title{
+  color: var(--white);
+}
+
+</style>
 <!-- Hero Section -->
 <section class="hero-section">
   <div class="container">
     <div class="row align-items-center">
+      <!-- Text Content -->
       <div class="col-lg-6">
-        <div class="hero-content">
+        <div class="hero-content fade-in-up">
           <h1 class="hero-title font-playfair">Timeless Elegance<br>Redefined</h1>
-          <p class="hero-subtitle">Discover our exquisite collection of handcrafted Indian wear, where tradition meets contemporary style</p>
+          <p class="hero-subtitle">
+            Discover our exquisite collection of handcrafted Indian wear, 
+            where tradition meets contemporary style
+          </p>
           <a href="{{url('/shop')}}" class="btn-elegant">Explore Collection</a>
         </div>
       </div>
+
+      <!-- Hero Image -->
       <div class="col-lg-6 text-center">
         <img 
           src="{{url('assets/images/jaipur/SC-LB-830-removebg-preview.png')}}" 
           alt="Elegant Fashion" 
-          class="img-fluid rounded hero-image"
-          style="max-height: 600px; object-fit: cover; opacity:0; transform: translateY(30px); transition: all 1s ease-in-out;"
+          class="img-fluid rounded hero-image fade-in-up"
+          style="max-height: 600px; object-fit: cover;"
         >
       </div>
     </div>
@@ -37,7 +51,7 @@
         <div class="collection-card">
           <img src="{{url('assets/images/jaipur/Kurta_Sets_2.webp')}}" alt="Kurta Sets">
           <div class="collection-overlay">
-            <h3 class="collection-title">Kurta Sets</h3>
+            <h3 class="collection-title" style="color: var(--white);">Kurta Sets</h3>
             <p>Elegant and comfortable everyday wear</p>
             <a href="{{url('/shop/kurta-sets')}}" class="btn-elegant mt-2">Shop Now</a>
           </div>
@@ -134,7 +148,7 @@
           <h3 class="product-title">Embroidered Silk Kurta</h3>
           <p class="product-price">INR 15,900</p>
           <div class="mt-3">
-            <a href="#" class="btn-elegant">Add to Cart</a>
+            <a href="#" class="btn-elegant-cart">Add to Cart</a>
           </div>
         </div>
       </div>
@@ -144,7 +158,7 @@
           <h3 class="product-title">Designer Kurta Set</h3>
           <p class="product-price">INR 21,900</p>
           <div class="mt-3">
-            <a href="#" class="btn-elegant">Add to Cart</a>
+            <a href="#" class="btn-elegant-cart">Add to Cart</a>
           </div>
         </div>
       </div>
@@ -154,7 +168,7 @@
           <h3 class="product-title">Festive Collection</h3>
           <p class="product-price">INR 18,900</p>
           <div class="mt-3">
-            <a href="#" class="btn-elegant">Add to Cart</a>
+            <a href="#" class="btn-elegant-cart">Add to Cart</a>
           </div>
         </div>
       </div>
@@ -164,7 +178,7 @@
           <h3 class="product-title">Casual Elegance</h3>
           <p class="product-price">INR 13,900</p>
           <div class="mt-3">
-            <a href="#" class="btn-elegant">Add to Cart</a>
+            <a href="#" class="btn-elegant-cart">Add to Cart</a>
           </div>
         </div>
       </div>
@@ -260,13 +274,202 @@
     padding: 8px 20px;
     width: 100%;
   }
+
+  /* Enhanced Add to Cart Button */
+  .btn-elegant-cart {
+    background: linear-gradient(135deg, var(--text-dark) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 8px 25px rgba(44, 44, 44, 0.15);
+    transform: translateY(0);
+    width: 100%;
+  }
+
+  .btn-elegant-cart::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-elegant-cart:hover::before {
+    left: 100%;
+  }
+
+  .btn-elegant-cart:hover {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #a08660 100%);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(44, 44, 44, 0.25);
+    text-decoration: none;
+  }
+
+  .btn-elegant-cart:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(44, 44, 44, 0.2);
+  }
+
+  .btn-elegant-cart::after {
+    content: '🛒';
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-elegant-cart:hover::after {
+    opacity: 1;
+  }
+
+  /* Ripple effect */
+  .btn-elegant-cart {
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  .btn-elegant-cart .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+  }
+
+  /* Loading state */
+  .btn-elegant-cart.loading {
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  .btn-elegant-cart.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .btn-elegant-cart {
+      padding: 12px 24px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .fade-in-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s ease-in-out;
+}
+
+/* Active state (visible) */
+.fade-in-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay image slightly for smooth stagger */
+.hero-image {
+  transition-delay: 0.3s;
+}
+
 </style>
 
+
+
 <script>
-    window.addEventListener("load", function() {
-    const heroImg = document.querySelector(".hero-image");
-    heroImg.style.opacity = "1";
-    heroImg.style.transform = "translateY(0)";
+   window.addEventListener("load", function () {
+  // Select all animated elements
+  const elements = document.querySelectorAll(".fade-in-up");
+
+  elements.forEach((el, index) => {
+    setTimeout(() => {
+      el.classList.add("show");
+    }, index * 200); // staggered delay for nicer effect
+  });
+});
+
+  // Add ripple effect to cart buttons
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartButtons = document.querySelectorAll('.btn-elegant-cart');
+    
+    cartButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        // Prevent default for demo
+        e.preventDefault();
+        
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        // Add loading state
+        this.classList.add('loading');
+        
+        // Remove ripple and loading after animation
+        setTimeout(() => {
+          ripple.remove();
+          this.classList.remove('loading');
+          
+          // Show success feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '✓ Added!';
+          this.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+            this.style.background = '';
+          }, 2000);
+        }, 600);
+      });
+    });
   });
 </script>
 @endsection

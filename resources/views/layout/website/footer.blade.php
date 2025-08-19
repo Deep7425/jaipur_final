@@ -1,7 +1,7 @@
 <!-- Newsletter Section -->
-<section class="newsletter-section">
+<section class="newsletter-section" style="background-color: #352820;">
   <div class="container">
-    <h2 class="newsletter-title font-playfair">Get On The List</h2>
+    <h2 class="newsletter-title font-playfair" style="color: var(--white);">Get On The List</h2>
     <p class="mb-4">A window to our world. Sign up to make the most of your shopping experience.</p>
     <form class="newsletter-form" action="#" method="POST">
       @csrf
@@ -12,7 +12,7 @@
 </section>
 
 <!-- Footer -->
-<footer class="py-5" style="background: var(--primary-color);">
+<footer class="py-5 footer-with-bg">
   <div class="container">
     <div class="row">
       <!-- Brand Section -->
@@ -99,25 +99,59 @@
 </footer>
 
 <style>
+  /* Footer Background */
+  .footer-with-bg {
+    background: url('{{url("assets/images/footer.jpg")}}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--white);
+    position: relative;
+  }
+
+  .footer-with-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(44, 44, 44, 0.6);
+    z-index: 1;
+  }
+
+  .footer-with-bg .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-with-bg h3,
+  .footer-with-bg h5,
+  .footer-with-bg p,
+  .footer-with-bg a {
+    color: var(--white) !important;
+  }
+
   .footer a:hover {
-    color: var(--secondary-color) !important;
+    color: var(--accent-color) !important;
     transition: color 0.3s ease;
   }
 
   .footer h5 {
     font-weight: 600;
-    color: var(--text-dark);
+    color: var(--white);
     margin-bottom: 1rem;
   }
 
   .footer .social-links a:hover i {
-    color: var(--secondary-color);
+    color: var(--accent-color);
     transform: translateY(-2px);
     transition: all 0.3s ease;
   }
 
   .newsletter-form button:hover {
-    background: var(--secondary-color);
+    background: var(--accent-color);
     transform: translateY(-1px);
   }
 
