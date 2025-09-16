@@ -1,0 +1,288 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Image;
+
+class ProductController extends Controller
+{
+    /**
+     * Display a listing of products.
+     */
+    public function index()
+    {
+        $products = Product::latest()->paginate(15);
+        return view('admin.products', compact('products'));
+    }
+
+    /**
+     * Show the form for creating a new product.
+     */
+    public function create()
+    {
+        return view('admin.add-product');
+    }
+
+    /**
+     * Store a newly created product in storage.
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products',
+            'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
+            'SKU' => 'required|string|max:255|unique:products,sku',
+            'quantity' => 'required|integer|min:0',
+            'stock_status' => 'required|in:instock,outofstock',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'thumbnail_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_active' => 'nullable|boolean',
+            'featured' => 'nullable|boolean',
+            'thumbnail_status' => 'required|in:show,hide',
+            'category_id' => 'nullable|integer',
+            'brand_id' => 'nullable|integer',
+        ]);
+
+
+            // Generate slug if not provided
+            if (empty($validatedData['slug'])) {
+                $validatedData['slug'] = Str::slug($validatedData['name']);
+            }
+
+            // Ensure slug is unique
+            $originalSlug = $validatedData['slug'];
+            $counter = 1;
+            while (Product::where('slug', $validatedData['slug'])->exists()) {
+                $validatedData['slug'] = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+
+            // Handle main image upload
+            $mainImageName = null;
+            if ($request->hasFile('image')) {
+                $mainImageName = $this->uploadImage($request->file('image'), 'products');
+            }
+
+            // Handle thumbnail image upload
+            $thumbnailImageName = null;
+            if ($request->hasFile('thumbnail_image')) {
+                $thumbnailImageName = $this->uploadImage($request->file('thumbnail_image'), 'products/thumbnails');
+            }
+
+
+            // Create product
+            $product = Product::create([
+                'name' => $validatedData['name'],
+                'slug' => $validatedData['slug'],
+                'description' => $validatedData['description'],
+                'short_description' => $validatedData['short_description'],
+                'regular_price' => $validatedData['regular_price'],
+                'sale_price' => $validatedData['sale_price'],
+                'sku' => $validatedData['SKU'],
+                'quantity' => $validatedData['quantity'],
+                'stock_status' => $validatedData['stock_status'],
+                'image' => $mainImageName,
+                'thumbnail_image' => $thumbnailImageName,
+                'is_active' => $request->has('is_active') ? 1 : 0,
+                'featured' => $request->has('featured') ? 1 : 0,
+                'thumbnail_status' => $validatedData['thumbnail_status'],
+                'category_id' => $validatedData['category_id'],
+                'brand_id' => $validatedData['brand_id'],
+            ]);
+
+            return redirect()->route('admin.products')
+                ->with('success', 'Product created successfully!');
+
+
+    }
+
+    /**
+     * Display the specified product.
+     */
+    public function show(Product $product)
+    {
+        return view('admin.product-details', compact('product'));
+    }
+
+    /**
+     * Show the form for editing the specified product.
+     */
+    public function edit(Product $product)
+    {
+        return view('admin.edit-product', compact('product'));
+    }
+
+    /**
+     * Update the specified product in storage.
+     */
+    public function update(Request $request, Product $product)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products,slug,' . $product->id,
+            'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
+            'SKU' => 'required|string|max:255|unique:products,sku,' . $product->id,
+            'quantity' => 'required|integer|min:0',
+            'stock_status' => 'required|in:instock,outofstock',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_active' => 'nullable|boolean',
+            'featured' => 'nullable|boolean',
+            'thumbnail_status' => 'required|in:show,hide',
+            'category_id' => 'nullable|integer',
+            'brand_id' => 'nullable|integer',
+        ]);
+
+        try {
+            // Generate slug if not provided
+            if (empty($validatedData['slug'])) {
+                $validatedData['slug'] = Str::slug($validatedData['name']);
+            }
+
+            // Handle main image upload
+            $mainImageName = $product->image;
+            if ($request->hasFile('image')) {
+                // Delete old image
+                if ($product->image) {
+                    $this->deleteImage($product->image, 'products');
+                }
+                $mainImageName = $this->uploadImage($request->file('image'), 'products');
+            }
+
+            // Handle thumbnail image upload
+            $thumbnailImageName = $product->thumbnail_image;
+            if ($request->hasFile('thumbnail_image')) {
+                // Delete old thumbnail
+                if ($product->thumbnail_image) {
+                    $this->deleteImage($product->thumbnail_image, 'products/thumbnails');
+                }
+                $thumbnailImageName = $this->uploadImage($request->file('thumbnail_image'), 'products/thumbnails');
+            }
+
+            // Update product
+            $product->update([
+                'name' => $validatedData['name'],
+                'slug' => $validatedData['slug'],
+                'description' => $validatedData['description'],
+                'short_description' => $validatedData['short_description'],
+                'regular_price' => $validatedData['regular_price'],
+                'sale_price' => $validatedData['sale_price'],
+                'sku' => $validatedData['SKU'],
+                'quantity' => $validatedData['quantity'],
+                'stock_status' => $validatedData['stock_status'],
+                'image' => $mainImageName,
+                'thumbnail_image' => $thumbnailImageName,
+                'is_active' => $request->has('is_active') ? 1 : 0,
+                'featured' => $request->has('featured') ? 1 : 0,
+                'thumbnail_status' => $validatedData['thumbnail_status'],
+                'category_id' => $validatedData['category_id'],
+                'brand_id' => $validatedData['brand_id'],
+            ]);
+
+            return redirect()->route('admin.products')
+                ->with('success', 'Product updated successfully!');
+
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->withErrors(['error' => 'Failed to update product: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Remove the specified product from storage.
+     */
+    public function destroy(Product $product)
+    {
+        try {
+            // Delete images
+            if ($product->image) {
+                $this->deleteImage($product->image, 'products');
+            }
+            if ($product->thumbnail_image) {
+                $this->deleteImage($product->thumbnail_image, 'products/thumbnails');
+            }
+
+            $product->delete();
+
+            return redirect()->route('admin.products')
+                ->with('success', 'Product deleted successfully!');
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Failed to delete product: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Toggle product thumbnail status.
+     */
+    public function toggleThumbnailStatus(Product $product)
+    {
+        $product->update([
+            'thumbnail_status' => $product->thumbnail_status === 'show' ? 'hide' : 'show'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'status' => $product->thumbnail_status,
+            'message' => 'Thumbnail status updated successfully!'
+        ]);
+    }
+
+    /**
+     * Toggle product active status.
+     */
+    public function toggleStatus(Product $product)
+    {
+        $product->update([
+            'is_active' => !$product->is_active
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'status' => $product->is_active,
+            'message' => 'Product status updated successfully!'
+        ]);
+    }
+
+    /**
+     * Upload image and return filename.
+     */
+    private function uploadImage($file, $directory)
+    {
+        $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+
+        // Create directory if it doesn't exist
+        $uploadPath = public_path('assets/images/' . $directory);
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        // Move the file
+        $file->move($uploadPath, $filename);
+
+        return $filename;
+    }
+
+    /**
+     * Delete image file.
+     */
+    private function deleteImage($filename, $directory)
+    {
+        $filePath = public_path('assets/images/' . $directory . '/' . $filename);
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+}

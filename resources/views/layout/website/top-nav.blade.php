@@ -4,7 +4,9 @@
 <!-- Mobile Navigation Menu -->
 <div class="mobile-nav-menu" id="mobileNavMenu">
   <div class="mobile-nav-header">
-    <h3 class="font-playfair">Jaipur Jazbaa</h3>
+    <h3 class="font-playfair">
+        <img src="{{url('assets/images/jjlogo.png')}}" alt="">
+    </h3>
     <button class="mobile-nav-close" id="mobileNavClose">
       <span>&times;</span>
     </button>
@@ -27,28 +29,28 @@
     <nav class="mobile-nav-links">
       <ul class="list-unstyled">
         <li><a href="{{url('/')}}" class="mobile-nav-link">Home</a></li>
-        <li><a href="{{url('/shop')}}" class="mobile-nav-link">Shop All</a></li>
+        <li><a href="#" class="mobile-nav-link">Shop All</a></li>
         <li>
           <a href="#" class="mobile-nav-link mobile-nav-toggle" data-target="collections">
             Collections <span class="mobile-nav-arrow">›</span>
           </a>
           <ul class="mobile-submenu" id="collections">
-            <li><a href="{{url('/shop/kurta-sets')}}" class="mobile-nav-link">Kurta Sets</a></li>
-            <li><a href="{{url('/shop/kaftans')}}" class="mobile-nav-link">Kaftans</a></li>
-            <li><a href="{{url('/shop/occasion-wear')}}" class="mobile-nav-link">Occasion Wear</a></li>
-            <li><a href="{{url('/shop/silk-velvets')}}" class="mobile-nav-link">Silk Velvets</a></li>
-            <li><a href="{{url('/shop/ready-to-ship')}}" class="mobile-nav-link">Ready to Ship</a></li>
+            <li><a href="#" class="mobile-nav-link">Kurta Sets</a></li>
+            <li><a href="#" class="mobile-nav-link">Kaftans</a></li>
+            <li><a href="#" class="mobile-nav-link">Occasion Wear</a></li>
+            <li><a href="#" class="mobile-nav-link">Silk Velvets</a></li>
+            <li><a href="#" class="mobile-nav-link">Ready to Ship</a></li>
           </ul>
         </li>
         <li>
           <a href="#" class="mobile-nav-link mobile-nav-toggle" data-target="special-collections">
             Special Collections <span class="mobile-nav-arrow">›</span>
           </a>
-          <ul class="mobile-submenu" id="special-collections">
+          {{-- <ul class="mobile-submenu" id="special-collections">
             <li><a href="{{url('/collections/indra')}}" class="mobile-nav-link">Indra</a></li>
             <li><a href="{{url('/collections/love-riot')}}" class="mobile-nav-link">Love Riot</a></li>
             <li><a href="{{url('/collections/daur')}}" class="mobile-nav-link">Daur</a></li>
-          </ul>
+          </ul> --}}
         </li>
         <li><a href="{{url('/about')}}" class="mobile-nav-link">About</a></li>
         <li><a href="{{url('/contact')}}" class="mobile-nav-link">Contact</a></li>
@@ -59,10 +61,10 @@
     <div class="mobile-account-section">
       <h5>My Account</h5>
       <ul class="list-unstyled">
-        <li><a href="{{url('/login')}}" class="mobile-nav-link">Sign In</a></li>
-        <li><a href="{{url('/register')}}" class="mobile-nav-link">Create Account</a></li>
-        <li><a href="{{url('/wishlist')}}" class="mobile-nav-link">Wishlist</a></li>
-        <li><a href="{{url('/cart')}}" class="mobile-nav-link">Shopping Cart</a></li>
+        <li><a href="#" class="mobile-nav-link">Sign In</a></li>
+        <li><a href="#" class="mobile-nav-link">Create Account</a></li>
+        <li><a href="#" class="mobile-nav-link">Wishlist</a></li>
+        <li><a href="#" class="mobile-nav-link">Shopping Cart</a></li>
       </ul>
     </div>
 
@@ -70,18 +72,13 @@
     <div class="mobile-social-section">
       <h5>Follow Us</h5>
       <div class="mobile-social-links">
-        <a href="#" class="mobile-social-link">
+        <a href="https://m.facebook.com/JaipurJazbaa/" target="__blank" class="mobile-social-link">
           <i class="fa fa-facebook-square"></i>
         </a>
-        <a href="#" class="mobile-social-link">
+        <a href="https://www.instagram.com/jaipur_jazba?igsh=dnRwcWZhOWxtY3I1" target="__blank" class="mobile-social-link">
           <i class="fa fa-instagram"></i>
         </a>
-        <a href="#" class="mobile-social-link">
-          <i class="fa fa-twitter"></i>
-        </a>
-        <a href="#" class="mobile-social-link">
-          <i class="fa fa-pinterest"></i>
-        </a>
+       
       </div>
     </div>
   </div>
@@ -303,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const target = this.dataset.target;
       const submenu = document.getElementById(target);
-      
+
       if (submenu) {
         this.classList.toggle('active');
         submenu.classList.toggle('active');

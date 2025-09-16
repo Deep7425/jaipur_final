@@ -100,30 +100,125 @@
     .nav-elegant {
       display: none;
     }
-    
+
     .mobile-menu-toggle {
       display: block;
     }
-    
+
     .logo-elegant {
       font-size: 1.5rem;
     }
   }
+.logo__image{
+    width: 100%;
+    height:80px;
+}
+
+/* Base styles */
+.search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Responsive behavior */
+@media (max-width: 600px) {
+  .search-modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .search-submit,
+  .search-close {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .search-submit,
+  .search-close {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .search-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin-bottom: 0;
+  }
+  .logo__image{
+    width: 60px;
+    height:82px;
+}
+}
+
+
 </style>
 
 <header class="header-elegant">
   <div class="container">
-    <div class="d-flex justify-content-between align-items-center py-3">
+    <div class="d-flex justify-content-between align-items-center py-3" >
       <!-- Logo -->
-      <a href="{{url('/')}}" class="logo-elegant font-playfair">Jaipur Jazbaa</a>
-      
+      <a href="{{url('/')}}" class="logo-elegant font-playfair "><img class="logo__image" style="" src="{{url('assets/images/logo.png')}}" alt=""></a>
+
       <!-- Desktop Navigation -->
       <nav class="nav-elegant d-none d-md-flex">
         <a href="{{url('/')}}">Home</a>
-        <a href="{{url('/shop')}}">Shop All</a>
-        <a href="{{url('/shop/kurta-sets')}}">Kurta Sets</a>
-        <a href="{{url('/shop/kaftans')}}">Kaftans</a>
-        <a href="{{url('/shop/occasion-wear')}}">Occasion Wear</a>
+        <a href="{{url('shop')}}">Shop All</a>
+        <a href="#">Occasion Wear</a>
         <a href="{{url('/about')}}">About</a>
         <a href="{{url('/contact')}}">Contact</a>
       </nav>
@@ -145,18 +240,18 @@
         </a>
 
         <!-- Wishlist -->
-        <a href="{{url('/wishlist')}}" title="Wishlist">
+        <a href="#" title="Wishlist">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <use href="#icon_heart" />
           </svg>
         </a>
 
         <!-- Shopping Cart -->
-        <a href="{{url('/cart')}}" class="position-relative" title="Shopping Cart">
+        <a href="#" class="position-relative" title="Shopping Cart">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <use href="#icon_cart" />
           </svg>
-          <span class="cart-badge">3</span>
+          <span class="cart-badge">0</span>
         </a>
 
         <!-- Mobile Menu Toggle -->
@@ -188,6 +283,8 @@
     </div>
   </div>
 </div>
+<hr></hr>
+<hr></hr>
 
 <style>
   .search-modal {

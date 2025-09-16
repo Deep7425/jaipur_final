@@ -2,163 +2,104 @@
 
 @section('title', 'Categories - Jaipur Jazbaa Admin')
 
-@section('description', 'Manage all product categories')
+@section('description', 'Manage product categories')
 
 @section('content')
 <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-    <h3>All Categories</h3>
-    <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
-        <li>
-            <a href="{{url('/admin')}}">
-                <div class="text-tiny">Dashboard</div>
-            </a>
-        </li>
-        <li>
-            <i class="icon-chevron-right"></i>
-        </li>
-        <li>
-            <div class="text-tiny">All Categories</div>
-        </li>
-    </ul>
+    <h3>Categories</h3>
+    <div class="flex items-center gap20">
+        <a href="{{ route('admin.categories.create') }}" class="tf-button">
+            <i class="icon-plus"></i> Add Category
+        </a>
+    </div>
 </div>
 
-<div class="wg-box">
-    <div class="flex items-center justify-between gap10 flex-wrap">
-        <div class="wg-filter flex-grow">
-            <form class="form-search" action="{{url('/admin/categories')}}" method="GET">
-                <fieldset class="name">
-                    <input type="text" placeholder="Search categories..." class="" name="search"
-                        tabindex="2" value="{{request('search')}}" aria-required="true">
-                </fieldset>
-                <div class="button-submit">
-                    <button class="" type="submit"><i class="icon-search"></i></button>
-                </div>
-            </form>
-        </div>
-        <a class="tf-button style-1 w208" href="{{url('/admin/categories/create')}}"><i
-                class="icon-plus"></i>Add new</a>
+@if(session('success'))
+    <div class="alert alert-success mb-20">
+        {{ session('success') }}
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+@endif
+
+@if(session('error'))
+    <div class="alert alert-error mb-20">
+        {{ session('error') }}
+    </div>
+@endif
+
+<div class="wg-box">
+    <div class="wg-table">
+        <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Slug</th>
+                    <th>Status</th>
                     <th>Products</th>
-                    <th>Action</th>
+                    <th>Created</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td class="pname">
-                        <div class="image">
-                            <img src="{{url('assets/admin/images/category/kurta-sets.jpg')}}" alt="" class="image">
-                        </div>
-                        <div class="name">
-                            <a href="#" class="body-title-2">Kurta Sets</a>
-                        </div>
-                    </td>
-                    <td>kurta-sets</td>
-                    <td>15</td>
-                    <td>
-                        <div class="list-icon-function">
-                            <a href="{{url('/admin/categories/1')}}">
-                                <div class="item eye">
-                                    <i class="icon-eye"></i>
+                @forelse($categories as $category)
+                    <tr>
+                        <td>
+                            @if($category->image)
+                                <img src="{{ asset('assets/images/categories/' . $category->image) }}" 
+                                     alt="{{ $category->name }}" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                            @else
+                                <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="icon-image" style="color: #999;"></i>
                                 </div>
-                            </a>
-                            <a href="{{url('/admin/categories/1/edit')}}">
-                                <div class="item edit">
-                                    <i class="icon-edit-3"></i>
-                                </div>
-                            </a>
-                            <form action="{{url('/admin/categories/1')}}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <div class="item text-danger delete" onclick="this.closest('form').submit()">
-                                    <i class="icon-trash-2"></i>
-                                </div>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td class="pname">
-                        <div class="image">
-                            <img src="{{url('assets/admin/images/category/kaftans.jpg')}}" alt="" class="image">
-                        </div>
-                        <div class="name">
-                            <a href="#" class="body-title-2">Kaftans</a>
-                        </div>
-                    </td>
-                    <td>kaftans</td>
-                    <td>8</td>
-                    <td>
-                        <div class="list-icon-function">
-                            <a href="{{url('/admin/categories/2')}}">
-                                <div class="item eye">
-                                    <i class="icon-eye"></i>
-                                </div>
-                            </a>
-                            <a href="{{url('/admin/categories/2/edit')}}">
-                                <div class="item edit">
-                                    <i class="icon-edit-3"></i>
-                                </div>
-                            </a>
-                            <form action="{{url('/admin/categories/2')}}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <div class="item text-danger delete" onclick="this.closest('form').submit()">
-                                    <i class="icon-trash-2"></i>
-                                </div>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td class="pname">
-                        <div class="image">
-                            <img src="{{url('assets/admin/images/category/silk-velvets.jpg')}}" alt="" class="image">
-                        </div>
-                        <div class="name">
-                            <a href="#" class="body-title-2">Silk Velvets</a>
-                        </div>
-                    </td>
-                    <td>silk-velvets</td>
-                    <td>5</td>
-                    <td>
-                        <div class="list-icon-function">
-                            <a href="{{url('/admin/categories/3')}}">
-                                <div class="item eye">
-                                    <i class="icon-eye"></i>
-                                </div>
-                            </a>
-                            <a href="{{url('/admin/categories/3/edit')}}">
-                                <div class="item edit">
-                                    <i class="icon-edit-3"></i>
-                                </div>
-                            </a>
-                            <form action="{{url('/admin/categories/3')}}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <div class="item text-danger delete" onclick="this.closest('form').submit()">
-                                    <i class="icon-trash-2"></i>
-                                </div>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="body-title-2">{{ $category->name }}</div>
+                        </td>
+                        <td>
+                            <div class="text-tiny">{{ $category->slug }}</div>
+                        </td>
+                        <td>
+                            @if($category->is_active)
+                                <span class="badge badge-success">Active</span>
+                            @else
+                                <span class="badge badge-danger">Inactive</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="text-tiny">{{ $category->products->count() }} products</div>
+                        </td>
+                        <td>
+                            <div class="text-tiny">{{ $category->created_at->format('M d, Y') }}</div>
+                        </td>
+                        <td>
+                            <div class="flex items-center gap10">
+                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                                <button class="btn btn-sm btn-danger" onclick="deleteCategory({{ $category->id }})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <div class="text-tiny">No categories found. <a href="{{ route('admin.categories.create') }}">Create your first category</a></div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
-
-    <div class="divider"></div>
-    <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-        <!-- Pagination will be added here when implementing backend -->
-    </div>
 </div>
+@endsection
+
+@section('additional_js')
+<script>
+    function deleteCategory(categoryId) {
+        if (confirm('Are you sure you want to delete this category?')) {
+            // Add delete functionality here
+            console.log('Delete category:', categoryId);
+        }
+    }
+</script>
 @endsection

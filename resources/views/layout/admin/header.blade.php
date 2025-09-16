@@ -1,4 +1,4 @@
-<div class="header-dashboard">
+﻿<div class="header-dashboard">
     <div class="wrap">
         <div class="header-left">
             <a href="{{url('/admin')}}">
@@ -180,7 +180,7 @@
                                 <img src="{{url('assets/admin/images/avatar/user-1.png')}}" alt="">
                             </span>
                             <span class="flex flex-column">
-                                <span class="body-title mb-2">Admin User</span>
+                                <span class="body-title mb-2">{{ Auth::user()->name ?? 'Admin User' }}</span>
                                 <span class="text-tiny">Administrator</span>
                             </span>
                         </span>
@@ -221,12 +221,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{url('/logout')}}" class="user-item">
-                                <div class="icon">
-                                    <i class="icon-log-out"></i>
-                                </div>
-                                <div class="body-title-2">Log out</div>
-                            </a>
+                            <form method="POST" action="{{ route('admin.logout') }}" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="user-item" style="background: none; border: none; width: 100%; text-align: left; padding: 8px 16px; cursor: pointer;">
+                                    <div class="icon">
+                                        <i class="icon-log-out"></i>
+                                    </div>
+                                    <div class="body-title-2">Log out</div>
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </div>

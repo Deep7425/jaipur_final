@@ -1,8 +1,8 @@
 <div class="section-menu-left">
     <div class="box-logo">
         <a href="{{url('/admin')}}" id="site-logo-inner">
-            <img class="" id="logo_header" alt="Jaipur Jazbaa Admin" src="{{url('assets/admin/images/logo/logo.png')}}"
-                data-light="{{url('assets/admin/images/logo/logo.png')}}" data-dark="{{url('assets/admin/images/logo/logo.png')}}">
+            <img class="" id="" style="width:70px; height:60px;" alt="Jaipur Jazbaa Admin" src="{{url('assets/admin/images/logo/jazbaa.jpg')}}"  data-light="{{url('assets/admin/images/logo/jazbaa.jpg')}}" data-dark="{{url('assets/admin/images/logo/jazbaa.jpg')}}">
+
         </a>
         <div class="button-show-hide">
             <i class="icon-menu-left"></i>
@@ -34,7 +34,7 @@
                             </a>
                         </li>
                         <li class="sub-menu-item">
-                            <a href="{{url('/admin/products')}}" class="{{Request::is('admin/products') ? 'active' : ''}}">
+                            <a href="{{route('admin.products.index')}}" class="{{Request::is('admin/products') ? 'active' : ''}}">
                                 <div class="text">Products</div>
                             </a>
                         </li>
@@ -124,4 +124,4 @@
             </ul>
         </div>
     </div>
-</div> 
+</div>

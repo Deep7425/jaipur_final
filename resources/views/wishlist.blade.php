@@ -219,4 +219,6 @@
     </div>
   </div>
 </section>
+
+@section('additional_css')
 @endsection
