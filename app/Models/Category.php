@@ -32,7 +32,7 @@ class Category extends Model
      */
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class , 'category_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class Category extends Model
     public static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($category) {
             if (empty($category->slug)) {
                 $category->slug = \Str::slug($category->name);

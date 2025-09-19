@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Category;
+// use App\Models\Brand;
 
 class WebsiteController extends Controller
 {
@@ -19,7 +22,8 @@ class WebsiteController extends Controller
     }
 
     public function shop(Request $request){
-        return view('shop');
+        $data = Product::where('thumbnail_status', 'show')->get();
+        return view('shop', compact('data'));
     }
 
     public function cart(Request $request){
@@ -47,7 +51,10 @@ class WebsiteController extends Controller
     }
 
     public function productDetails(Request $request){
-        return view('product-details');
+        $id = base64_decode($request->id);
+        $data = Product::with('category')->where('is_active', '1')->where('id', $id)->first();
+        $relatedProducts = Product::with('category')->where('is_active', '1')->get();
+        return view('details', compact('data' , 'relatedProducts'));
     }
 
     public function productList(Request $request){

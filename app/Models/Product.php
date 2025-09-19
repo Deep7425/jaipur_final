@@ -198,6 +198,15 @@ class Product extends Model
         $this->increment('views');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class , 'category_id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     /**
      * Generate unique SKU if not provided.
      */

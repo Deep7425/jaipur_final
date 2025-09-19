@@ -18,7 +18,7 @@ Route::get('/about', [WebsiteController::class, 'about'])->name('about');
 Route::get('/contact', [WebsiteController::class, 'contact'])->name('contact');
 Route::get('/checkout', [WebsiteController::class, 'checkout'])->name('checkout');
 Route::get('/my-account', [WebsiteController::class, 'myAccount'])->name('my-account');
-Route::get('/product-details', [WebsiteController::class, 'productDetails'])->name('product-details');
+Route::get('/product-details/{id}', [WebsiteController::class, 'productDetails'])->name('product-details');
 Route::get('/product-list', [WebsiteController::class, 'productList'])->name('product-list');
 
 // Admin Authentication Routes (Public)
@@ -41,7 +41,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::patch('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    
+
     // Additional product routes
     Route::post('/products/{product}/toggle-thumbnail', [ProductController::class, 'toggleThumbnailStatus'])->name('products.toggle-thumbnail');
     Route::post('/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured'])->name('products.toggle-featured');
